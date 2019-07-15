@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>360&deg; FORTUNES</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+body{
+    background-image: linear-gradient(to right, lightyellow, gold);
+}
+#maincontainerGRID{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    margin: 0 auto;
+    width: fit-content
+}
+#contentarea{
+    background-image: url('headertag.png');
+    background-repeat: repeat-y;
+    background-size: 100%;
+    border-radius: 20px;
+    box-shadow: 3px 3px 12px black;
+    height: auto;
+}
+button.spinnerBTN{
+    background-image: linear-gradient(170deg, lightyellow, gold);
+    border-top:3px solid rgb(192, 166, 20);
+    border-left:2px solid rgb(192, 166, 20);
+    border-bottom:3px solid rgb(124, 107, 11);
+    border-right:2px solid rgb(124, 107, 11);
+    padding: 0 10px;
+    color: lightgreen;
+    text-shadow: 1px 1px 1px rgb(31, 31, 31);
+    text-transform: uppercase;
+    border-radius: 3px;
+    font-family: sans-serif;
+    font-size: 16pt;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+button.spinnerBTN:hover{
+    background-image: linear-gradient(-120deg, lightyellow, rgb(224, 224, 183), gold);
+    color: rgb(187, 238, 187);
+    box-shadow: 15px 0 20px rgba(255, 217, 0, 0.486);
+    text-shadow: 1px 1px 1px rgba(31, 31, 31, 0.664);
+}
+button.spinnerBTN:active{
+    color: rgb(96, 158, 96);
+    box-shadow: 15px 0 40px rgba(255, 248, 207, 0.486);
+}
+#title{
+    font-size:230%;
+    margin: 0;
+    padding: 0;
+    text-shadow:  2px 3px rgba(0, 0, 0, 0.157);
+}
+#pricetag{
+    background-image: linear-gradient(180deg, gold, rgb(155, 170, 86));
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.705);
+    width: fit-content;
+    text-align: center;
+    display: none;
+    position: absolute;
+    top: 280px;
+    transform: translateX(90px)
+}
+#luckyTxt{
+    background: -webkit-linear-gradient(rgb(250, 255, 173), gold);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.452);
+    text-transform: uppercase;
+    font-size: 150%;
+    padding: 0;
+    margin: 0;
+}
+#wheelarea{
+    background: rgba(255, 217, 0, 0.644);
+    padding: 40px;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 50%;
+    margin: 20px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.582);
+}
+#wofTAG{ /* wof = wheel of fortunes */
+    background-image: url('headertag.png');
+    background-position-y: center;
+    background-position-x: center;
+    background-size: 150%;
+    background-repeat: none;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 15px rgb(0, 0, 0);
+}
+#luckyTitle{
+    margin:0;
+    padding:0;
+    color: rgb(107, 179, 107);
+    text-shadow:0 0 2px rgba(0, 0, 0, 0.575);
+    text-transform: uppercase;
+}
+#winningTxt{
+    text-align: center;
+    /* background-image: linear-gradient(180deg, white, lightgreen, rgb(165, 230, 165)); */
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.657);
+    width: 200px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: none;
+}
+.gameBTN{
+    border-top: 2px solid lightgreen;
+    border-left:2px solid lightgreen;
+    border-bottom:2px solid darkgreen;
+    border-right: 2px solid darkgreen;
+    border-radius: 3px;
+    background-image: linear-gradient(170deg, rgba(115, 209, 115, 0.787), rgba(14, 121, 14));
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.698);
+    padding:10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-size: 18pt;
+    display: block;
+    margin: 3px;
+    color: rgba(230, 201, 38, 0.87);
+    text-shadow:1px 1px 2px black;
+    font-variant-caps: all-small-caps;
+}
+.gameBTN:hover{
+    color: rgba(238, 217, 95, 0.87);
+    background-image: linear-gradient(170deg, rgba(115, 209, 115, 0.787), rgb(37, 165, 37), rgba(14, 121, 14));
+}
+.gameBTN:active{
+    color: rgba(155, 140, 60, 0.87);
+    background-image: linear-gradient(170deg, rgba(86, 149, 86, 0.787), rgb(29, 126, 29), rgb(10, 78, 10));
+}
+#buttonContainer{
+    width: 80%;
+    margin:0 auto 20px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+}
+</style>
+</head>
+<body>
+<div id="maincontainerGRID">
+    <div class="gridITEMarea 1">
+        <div id="contentarea" style="padding:10px;width:fit-content;">
+            <div id="wofTAG">
+                <h2 id="title" style="text-align: center;background: -webkit-linear-gradient(rgb(250, 255, 173), rgb(150, 180, 16)); -webkit-background-clip:text;-webkit-text-fill-color: transparent; text-transform: uppercase"></h2>
+            </div>
+            <div id="wheelarea">
+                <div id="wheel" style="box-shadow:0 0 10px white;width:300px;height:300px;background-image: linear-gradient(90deg, rgba(0, 255, 255, 0.294), lightgreen, lightgreen, rgba(200, 200, 200, 0.822), lightgreen, lightgreen, rgba(0, 255, 255, 0.294));border-radius: 50%;">
+                    <h1 style="position:relative;top:-150px;left:-3px;transform: translate(-50%);transform: rotate(-90deg);font-size:420%;color: rgb(116, 69, 8);text-shadow:-2px 0 3px rgb(0, 0, 0);margin:0;padding:0">&#10147;</h1>
+                </div>
+            </div>
+            <div id="pricetag">
+                <p id="luckyTitle">your number</p>
+                <h3 id="luckyTxt">20</h3>
+                <p id="winningTxt">you win: 32</p>
+            </div>
+        </div>
+        <p>What should I do when I get bored? Why not make <br>
+        a simple browser game?</p>
+        <p>At first I only wanted to make some spinning objects with CSS. <br>
+        Then my idea went from a simple object to a game.</p>
+        <p>why not try to make this spinning wheel game?</p>
+        <p>Alright! Just create a HTML skeleton, give it some styling <br>
+        with CSS, and give it brains with JavaScript.</p>
+        <p>Such a fun small project. </p>
+        <p>If you're interested to see the source code, <br>
+        you can see it here: <a href="#"> fgergeg</a> </p>
+
+    </div>
+
+    <div class="gridITEMarea 2">
+            <div id="contentarea" style="position:relaitve;top:10px; left: 430px;padding:10px;width:280px;height: fit-content;">
+                
+                <div style="padding:2px;margin-bottom: 20px">
+                    <h2 style="margin:0 10px 10px 0;display:inline-block;color:rgb(91, 209, 91);text-shadow:1px 1px 1px black;">GAME</h2>
+                    <h2 id="diff" style="display:inline-block;margin:0;color:lightgreen;text-shadow:1px 1px 1px black;text-align:left;">-</h2>
+                    <h2 id="difff" style="display:block;margin:0;color:lightgreen;text-shadow:1px 1px 1px black;text-align:left;font-size:90%">-</h2>
+                    <h2 id="diffff" style="display:block;margin:0;color:lightgreen;text-shadow:1px 1px 1px black;text-align:left;font-size:90%">-</h2>
+                </div>
+
+                <div style="background-color: rgb(171, 241, 171);border:1px solid rgba(0, 0, 0, 0.404);width: 150px;box-shadow:2px 2px 6px rgba(0, 0, 0, 0.692);position: relative;display: inline-block">
+                    <h2 style="text-shadow:1px 1px 1px rgba(0, 0, 0, 0.212);margin:0 6px 0;padding:0;background: -webkit-linear-gradient(rgb(250, 255, 173), rgb(150, 180, 16)); -webkit-background-clip:text;-webkit-text-fill-color: transparent; text-transform: uppercase;text-align: left;">point balance</h2>
+                    <hr style="margin:0;">
+                    <h2 id="cashamount" style="margin:0 12px 0 ;text-align:right;color:rgba(0, 255, 0, 0.507);text-shadow: 1px 1px 3px black;">0</h2>
+                    
+                </div>
+                <h4 style="color:white;margin: 0;width: 100px;padding:0 10px;float:right">Highest score:</h4>
+                <p id="highestscore" style="color:white;margin: 0;width: 100px;padding:0 10px;float:right;transform: translateY(-50px)">highest score</p>
+
+                <div style="background: rgba(0, 0, 0, 0.493);border-radius:2px;">
+                    <h1 style="text-align: center;background: -webkit-linear-gradient(rgb(250, 255, 173), rgb(150, 180, 16)); -webkit-background-clip:text;-webkit-text-fill-color: transparent; text-transform: uppercase;">Select game:</h1>
+                </div>
+                <div id="buttonContainer">
+                    <button onclick="easy()"   class="gameBTN" >> 180&deg;</button>
+                    <button onclick="medium()" class="gameBTN" >> 270&deg;</button>
+                    <button onclick="hard()"   class="gameBTN" >Lucky 10</button>
+                    <button onclick="extra()"  class="gameBTN" >Total lucky</button>
+                </div>
+                <div style="display: grid;grid-template-columns: auto auto;grid-template-rows: auto;grid-gap: 5px">
+                    <div style="background-color: rgba(255, 217, 0, 0.787);padding:7px;border-radius: 3px;">
+                        <div style="padding:2px;">
+                            <h4 style="margin:0;color:lightgreen;text-shadow:1px 1px 1px black;">Bet amount</h4>
+                            <h2 id="betamount" style="margin:0;color:lightgreen;text-shadow:1px 1px 1px black;text-align:center;">0</h2>
+                        </div>
+                        <button onclick="betUp()" style="color:rgb(0, 0, 0);background-color:rgba(71, 173, 79, 0.849);display: block;margin-bottom: 1px;padding:2px 14px;width:100%">&#8679;</button>
+                        <button onclick="betDown()" style="color:rgb(0, 0, 0);background-color:rgba(71, 173, 79, 0.849);display: block;margin-top:1px;  padding:2px 14px;width:100%">&#8681;</button>
+                    </div>
+                    <button class="spinnerBTN" onclick="rotate()">&sstarf;&sstarf;&star; Play &star;&sstarf;&sstarf;</button>
+                </div>
+            </div>
+            <p>Choose a game before playing</p>
+            <p>There are 4 different game modes</p>
+            <p>To win more game points you will need to <br>
+                 raise your bet amount</p>
+            <p>You can play without points, just simply <br> select a game and then
+            hit PLAY</p>
+    </div>
+</div>
+
+
+
+<script src="javascript.js"></script>
+</body>
+</html>
