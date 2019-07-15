@@ -19,9 +19,13 @@ var highscore = document.getElementById("highestscore");
 var highscorePTS = 0;
 
 
-$().keydown(function(){
-    betAmount += 1;
-    document.getElementById("betamount").innerHTML = betAmount;
+document.addEventListener('keydown', function(event) {
+    if (event.code == 'ArrowDown') {
+        betDown();
+    }
+    if (event.code == 'ArrowUp') {
+        betUp();
+    }
 });
 
 function betUp(){
@@ -56,7 +60,7 @@ function hard(){
     difficulty = 2;
     dif.innerHTML = "Lucky 10";
     dif2.innerHTML = "If your number is as close as 10 from the random number, you win.";
-    dif3.innerHTML = "Winning prize: 50 * BET AMOUNT";
+    dif3.innerHTML = "Winning prize: 30 * BET AMOUNT";
 }
 function extra(){
     difficulty = 3;
@@ -123,8 +127,8 @@ var rotateMultiplier = 0;
                     $("#winningTxt").fadeIn(1500);
                     if(finalAmount >= randomWin-10 && finalAmount <= randomWin+10){
                         winTxt.style.color = "green";
-                        winTxt.innerHTML = "You win "+50*betAmount+"! The random number is "+randomWin;
-                        cash += (50*betAmount);
+                        winTxt.innerHTML = "You win "+30*betAmount+"! The random number is "+randomWin;
+                        cash += (30*betAmount);
                         cashHtml.innerHTML = cash;
                     } else {
                         if(finalAmount >= randomWin-20 && finalAmount <= randomWin+20){
