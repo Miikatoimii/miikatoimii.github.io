@@ -84,6 +84,9 @@ var rotateMultiplier = 0;
         function spin(){
             if(rotateAmount < setRotateAmount){
                 if(rotateAmount < setRotateAmount*0.5) {
+                    if(setRotateAmount < 3){
+                        setRotateAmount = 3;
+                    }
                     rotateMultiplier++;
                     rotateAmount = rotateAmount+(rotateMultiplier*0.05);
                 } else if(rotateAmount < setRotateAmount*0.95){
