@@ -1,6 +1,6 @@
 var canvas = document.querySelector('canvas');
 canvas.width = innerWidth;
-canvas.height = innerHeight*0.9;
+canvas.height = innerHeight;
 var c = canvas.getContext("2d");
 
 var ballList = [];
