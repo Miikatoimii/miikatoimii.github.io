@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Light behaviour</title>
+</head>
+<body>
+<canvas></canvas>
+<div id="ohjeet">
+    <h3>Press keyboard buttons to select mode</h3>
+    <div class="kortti">
+        <div class="painike"><div>1</div></div> 
+        <div class="selitys">Laser: <br> hold left click, drag and release in desired angle</div>
+    </div>
+    <div class="kortti">
+        <div class="painike"><div>2</div></div> 
+        <div class="selitys">Sun light: <br> click anywhere on the screen</div>
+    </div>
+    <div class="kortti">
+        <div class="painike"><div>3</div></div> 
+        <div class="selitys">Insta laser: <br> shows immidiate result for laser pointer</div>
+    </div>
+    <div class="kortti">
+        <div class="painike"><div>F</div></div> 
+        <div class="selitys">Draw wall: <br> hold left click, drag and release in desired angle</div>
+    </div>
+    <div class="kortti">
+        <div style="width:70px" class="painike"><div>space</div></div> 
+        <div class="selitys">Clear canvas</div>
+    </div>
+</div>
+<h1 id="mode1">mode: <span id="mode">Draw wall (F)</span> </h1>
+<script src="code.js"></script>
+</body>
+</html>

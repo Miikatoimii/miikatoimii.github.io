@@ -1,0 +1,61 @@
+body{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+canvas{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 39, 0.835);
+}
+#ohjeet{
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    color: whitesmoke;
+    padding: 10px;
+    margin: 0;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    width: fit-content;
+    max-width: 300px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+.kortti{
+    padding: 5px ;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+
+}
+.painike{
+    width: 40px;
+    height: 48px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px white;
+    background-color: rgba(255,255,255,0.2);
+    margin-right: 10px
+}
+.painike *{
+    transform: translate(15px, 20px);
+}
+.painike:last-of-type{
+    width: 80px;
+}
+.selitys{
+    width: fit-content;
+    max-width: 200px;
+}
+#mode1{
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    left: 400px;
+    top: 30px;
+    color: white
+}
