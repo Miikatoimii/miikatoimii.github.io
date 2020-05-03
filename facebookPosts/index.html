@@ -14,8 +14,6 @@ body{
     width: 100vw;
     height: 100vh;
     font-size: 110%;
-    background-image: linear-gradient(90deg, #1342b1 ,whitesmoke 20%,whitesmoke 80%,#1342b1 );
-    background-attachment: fixed;
     box-sizing: border-box;
 }
 #facebook-data{
@@ -49,33 +47,31 @@ p:first-of-type{
 }
 a{
     font-size: 50pt;
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(0,0,0,0.05);
     padding-bottom: 15px;
     margin: 0;
     border-radius: 10px;
     box-shadow:0 2px 3px black;
     cursor: pointer;
     box-sizing: border-box;
-    width: 100px;
+    width: fit-content;
     text-align: center;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
 }
 a:hover{
-    background-color: rgba(0,0,0,0.04);
+    background-color: rgba(0,0,0,0.01);
     box-shadow:0 2px 5px black;
 }
 #uusi{
     outline: none;
-    position: fixed;
-    top: 50%;
-    left: 2%;
+    left: 0;
     box-sizing: border-box;
 }
 #vanha{
     outline: none;
-    position: fixed;
-    top: 50%;
-    left: 98%;
-    transform: translateX(-100%);
+    right: 0;
     box-sizing: border-box;
 }
 h3{
@@ -89,6 +85,14 @@ img{
     border-radius: 50%;
     box-shadow: 0 0 5px black;
     box-sizing: border-box;
+}
+@media only screen and (max-width: 800px) {
+    a{
+        font-size: 30pt;
+        top: 100%;
+        transform: translateY(-100%);
+        padding-bottom: 5px;
+    }
 }
 </style>
 <body>
