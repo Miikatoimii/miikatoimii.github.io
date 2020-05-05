@@ -102,7 +102,7 @@ img{
 <a id="vanha" onclick="vanhempi()">&#8680;</a>
 <script>
 var postnumber = 0;
-var key = "EAAMhh65XD5UBACbQJ27PcZCAWutIR2NZA2SdV1yG9NyukoXcHMHh3rZBf1oBoNkRz56UqrqTljgRPbm0fFh9ZAhm7TYV1GsaVVP5ELWUDI3RSyirNBafFosDVvuskuAKZCJlxnhLmZCRZC6BQZBfFYX3fHto1Qvm9PZAyh18wL87Q6gY5R1vPcUySZBjXrtZCHzo49FNAp4WtJtrItX8iXGTgF6Ed5zrvPQpdykR0JY0auRbgZDZD";
+var key = "EAAMhh65XD5UBANj3hkzvCpcVbca94gVVCFX4EVrcUlqzg1e5d62zlwqtGphBFBig8gifIHLrZAEEOr4MUkaAYH56L5eXq7VmYhJkKThfz6Wyh14UM41Icn0MGO4wjurGpZADtWKZCFG7gEcciFndQrZAyMZAj881GmkjJzs7gguuZA98BmxJLKMmMhDV5XTsZC74KmrISY4PzQ9WeNUa9aLij4WYwdzbzbPcwxC6f2vQAZDZD";
 var data = {};
 var pictureUrl = "";
 
@@ -116,6 +116,10 @@ xhttp.onreadystatechange = function() {
         nimg.setAttribute('height', data.picture.data.height);
         document.body.appendChild(nimg);
         inputContent();
+    } else if(this.status != 0) {
+        document.getElementById("facebook-data").innerText = "Virhe ladattaessa sisältöä"
+        document.getElementById("facebook-data").innerHTML += "<br><br>"
+        document.getElementById("facebook-data").innerText += `virhekoodi --- ${this.status}`;
     }
 };
 xhttp.open("GET", `https://graph.facebook.com/3075794219170685?fields=posts,picture&access_token=${key}`, true);
