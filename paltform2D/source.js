@@ -15,8 +15,9 @@ var player = {
     speed: 3,
     speedLeft: 0,
     speedRight: 0,
-    jumpVelocity: 0.2,
+    jumpVelocity: 0.6,
     moveVelocity: 0.16,
+    extraForce: 0,
     leftcollX: 0,
     leftcollY: 0,
     rightcollX: 0,
@@ -85,10 +86,9 @@ function worldCycle(){
     if(player.isRunning) player.speed = 5;
     else if(!player.isRunning) player.speed = 3;
     if(!player.isGrounded){
-        var extraForce = 0;
-        if(player.extraJumpForce) extraForce = 0.34;
-        else extraForce = 0;
-        player.y += player.jumpVelocity += player.gravity - extraForce;
+        if(player.extraJumpForce && player.jumpVelocity < 0) player.extraForce = 0.33;
+        else player.extraForce = 0;
+        player.y += player.jumpVelocity += player.gravity - (player.extraForce);
     }
     if(player.y+player.size > canvas.height) {
         player.resetJump();
@@ -115,6 +115,7 @@ function worldCycle(){
     
 }
 window.addEventListener('keydown',(e)=>{
+
     if(e.keyCode == 65){
         player.isMovingLeft = true;
     }
@@ -126,22 +127,21 @@ window.addEventListener('keydown',(e)=>{
         player.extraJumpForce = true;
         player.isJumping = true;
     }
-    if(e.keyCode == 16)
-        player.isRunning = true;
 })
 window.addEventListener('keyup',(e)=>{
     if(e.keyCode == 65){
         player.isMovingLeft = false;
+        player.isRunning = false;
     }
     if(e.keyCode == 68){ 
         player.isMovingRight = false;
+        player.isRunning = false;
+        
     }
     if(e.keyCode == 32){
         player.extraJumpForce = false;
         player.isJumping = false;
     }
-    if(e.keyCode == 16)
-        player.isRunning = false
     
     if(e.keyCode == 49){
         if(player.showCollisionPoint){
@@ -241,3 +241,13 @@ function resetStats(){
     document.getElementById('jveldin').value = 2;
     document.getElementById('mvelin').value = 16;
 }
+
+
+window.addEventListener('resize', ()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    player.x = 100;
+    player.y = 100;
+    clearTiles()
+})
