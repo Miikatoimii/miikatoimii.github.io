@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>platformer 2d</title>
+<style>
+body{
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+canvas{
+    background-color: beige;
+}
+#ohjeet{
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 30px;
+    margin: 0;
+}
+#ohjeet p, #ohjeet h2{
+    margin: 0;
+}
+.key_button{
+    display: inline-block;
+    width: fit-content;
+    min-width: 17px;
+    height: 17px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px black;
+    background-color: rgb(206, 206, 206);
+    font-weight: bold;
+    margin: 0;
+}
+#clear{
+    position: fixed;
+    outline: none;
+    top: 20px;
+    left: 20px;
+    width: fit-content;
+    font-size: 26pt;
+    font-style: italic;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: rgb(180, 180, 180);
+    color: darkred;
+}
+input{
+    display: block;
+    margin-bottom: 5px;
+    width: 100px;
+}
+</style>
+</head>
+<body>
+<canvas></canvas>
+<div id="ohjeet">
+    <h2><b>Click anywhere to add platform tiles</b> </h2>
+    <br>
+    <p>Move left and right with <span class="key_button">a</span> and <span class="key_button">d</span></p>
+    <p>Jump with <span class="key_button">space</span></p>
+    <p>Hold <span class="key_button">space</span> for higher jump</p>
+    <br>
+        gravity <input id="gravdin" value="6" type="number" onchange="setPlayerStats(this.value, 'gravity')">
+
+    <button onclick="resetStats()">reset</button>
+    <br>
+    <p>toggle Dev Options</p>
+    <p>show collision points: <span class="key_button">1</span></p>
+</div>
+<button id="clear" onclick="clearTiles()">clear map</button>
+<script src="source.js"></script>
+</body>
+</html>
