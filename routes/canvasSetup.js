@@ -263,7 +263,7 @@ function clickRoute(route){
             if(i == 0){
                 pysakit[ar[i]].color = "green";
                 c.beginPath();
-                // c.strokeStyle = "red";
+                c.strokeStyle = "violet";
                 c.lineWidth = 6;
                 c.moveTo(pysakit[ar[i]].x+offsetX, pysakit[ar[i]].y+offsetY)
             }
@@ -342,6 +342,32 @@ function getRoute(start, end){
             } 
         }
     }
-
     return routes;
+}
+var endpoint = 0;
+canvas.addEventListener('click', (e)=>{
+    var mouseX = e.clientX-canvas.offsetLeft;
+    var mouseY = e.clientY-canvas.offsetTop;
+    for(var r in pysakit){
+
+        if(getDistance(mouseX, mouseY, pysakit[r].x+offsetX, pysakit[r].y+offsetY) < 20){
+            if(endpoint == 0){
+                endpoint = 1;
+                document.getElementById('start').value = pysakit[r].name.toUpperCase();
+                pysakit[r].color = "green";
+            } else {
+                document.getElementById('end').value = pysakit[r].name.toUpperCase();
+                pysakit[r].color = "red";
+                endpoint = 0;
+            }
+        }
+    }
+    drawCanvas(false)
+    setRoute()
+})
+
+function getDistance(x1, y1, x2, y2){
+    var xDistance = x2 - x1;
+    var yDistance = y2 - y1;
+    return Math.abs(Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2)));
 }
