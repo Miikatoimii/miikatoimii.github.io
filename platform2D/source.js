@@ -12,7 +12,7 @@ var player = {
     size: 40,
     showCollisionPoint: false,
     color: "green",
-    speed: 3,
+    speed: 3.4,
     speedLeft: 0,
     speedRight: 0,
     jumpVelocity: 0.6,
@@ -80,10 +80,12 @@ var player = {
     },
     movement: function(){
         
-        if(this.isRunning){this.speed = 5; this.color ="darkgreen" } 
+        if(this.isRunning){this.speed = 6 ; this.color ="darkgreen" } 
         else if(!this.isRunning) {this.speed = 3; this.color ="green" } 
-        
+     
+  
         if(!this.isGrounded){
+            if(this.jumpVelocity > 17) this.jumpVelocity = 17;
             if(this.extraJumpForce && this.jumpVelocity < 0) this.extraForce = 0.6;
             else this.extraForce = 0;
             this.y += this.jumpVelocity += this.gravity - (this.extraForce);
