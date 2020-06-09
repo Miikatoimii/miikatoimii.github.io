@@ -35,10 +35,14 @@
                 </div>
             </div>
             
-            <div class="menu_btn">contact
-
-            </div>
-
+            <a onclick="changeThis(this.id, String.fromCharCode(109,105,105,107,97,116,111,105,118,97,110,101,110,57,49,64,103,109,97,105,108,46,99,111,109))" id="ct_btn" class="menu_btn">contact</a>
+            <script>
+                function changeThis(id, value){
+                    document.getElementById(id).style.width = "fit-content";
+                    document.getElementById(id).removeAttribute("onclick")
+                    document.getElementById(id).innerText = value;
+                }
+            </script>
 
         </div>
         <div id="static_text">
@@ -168,27 +172,46 @@ function playAnimation(){
             
     }
     else if(animationSequence == 2){
+        c.font = "30px Courier";
         introText = [
-            "World's shortest film", 
-            "new line 1", 
-            "new line 2", 
-            "new line 3", 
-            "new line 4"
+            "Welcome to my Github page"
         ];
-        if(animationframe > 70) animationSequence++;
+        if(animationframe > 50) animationSequence++;
     }
     else if(animationSequence == 3){
-        var d = new Date()
-        var newLineText =  d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
-        introText = ["THE END", newLineText];
-        if(animationframe > 80) animationSequence++;
+    
+        introText = [
+            "Sometimes I upload", 
+            "some fancy stuff to this page",
+        ];
+        if(animationframe > 70) animationSequence++;
+
+    }
+    else if(animationSequence == 4){
+    
+        introText = [
+            "Be sure to check out", 
+            "all the links in the",
+            "navigation bar below"
+        ];
+        if(animationframe > 95) animationSequence++;
+
+    }
+    else if(animationSequence == 5){
+        introText = [
+            "Thank you for visiting",
+            "this place",
+            "and have a nice day!"
+        ];
+        if(animationframe > 120) animationSequence++;
+
     }
     //end Sequence
     else{
         introText = [];
-        alpha -= 0.004;
         if(canvas.height > canvasFixedHeight){
             canvas.height--;
+            alpha -= 0.008;
         }
         else{
             animationPlaying = false; //stops the animation loop
