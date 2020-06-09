@@ -58,6 +58,7 @@
 var canvas = document.getElementById('header');
 var c = canvas.getContext('2d');
 var canvasFixedHeight = 200;
+canvas.height = canvasFixedHeight;
 var iBtn = document.getElementById('introButton');
 window.addEventListener('resize', function(){
     canvas.width = canvasFixedHeight*4; 
@@ -74,7 +75,6 @@ window.addEventListener('resize', function(){
 })
 function initPage(){
     canvas.width = canvasFixedHeight*4; 
-    canvas.height = canvasFixedHeight;
     iBtn.style.display = "block";
     iBtn.style.left = canvas.offsetLeft+(canvas.width/2)+"px";
     iBtn.style.top = canvas.offsetTop+130+"px";
@@ -87,7 +87,6 @@ function initPage(){
     c.fillStyle = "white"
     c.fillText(txt, tX-(c.measureText(txt).width/2), tY);
 }
-initPage();
 
 ajaxGet('./staticText.txt').then(value => {
     document.getElementById('static_text').innerText = value
@@ -234,6 +233,7 @@ function playAnimation(){
         c.drawImage(curtain, canvas.width/2, 0, canvas.width, canvas.height, curtain2position, 0, canvas.width, canvas.height)
     }
 }
+initPage();
 </script>     
 </body>
 </html>
