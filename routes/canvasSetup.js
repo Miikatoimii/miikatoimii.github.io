@@ -179,8 +179,9 @@ function drawCanvas(init){
         Y = pysakit[p].y+offsetY;
     
         c.beginPath();
+        c.lineWidth = 1;
         for(var b = 0; b < pysakit[p].childStops.length; b++){
-        c.strokeStyle = "darkblue"
+            c.strokeStyle = "darkblue"
             c.moveTo(X,Y);
             toX = pysakit[pysakit[p].childStops[b].name].x+offsetX;
             toY = pysakit[pysakit[p].childStops[b].name].y+offsetY;
@@ -217,23 +218,69 @@ drawCanvas(true)
 function setRoute(){
     var start = document.getElementById('start').value;
     var end = document.getElementById('end').value;
+    var sortByNumber = document.getElementById('sort').value;
     if(start != 0 && end != 0){
         var routes = getRoute(start.toLowerCase(), end.toLowerCase()).sort((a, b) => a.totalDistance - b.totalDistance);
-        document.getElementById('routes').innerHTML = "<h2>"+routes.length+" routes available!</h2>"
+        document.getElementById('info').innerHTML = routes.length+" routes!";
+        document.getElementById('routes').innerHTML = "";
+        clickRoute(showRoute(routes[0]).join(","))
         var routenum = 0;
         if(routes.length > 0){
             routes.forEach(route => {
-                routenum++;
-                document.getElementById('routes').innerHTML += `<div class="routeCard">
-                    <p>route: ${routenum}</p>
-                    <p>${showRoute(route).join(", ")}</p>
-                    <p>total distance: ${route.totalDistance}</p>
-                    </div>`
+                if(routenum < sortByNumber){
+                    routenum++;
+                    document.getElementById('routes').innerHTML += `<a style="background-color: rgba(`+(routenum*10)+`,`+((255)-(routenum*10))+`,0,0.3)" onclick="clickRoute('${showRoute(route)}')" id="route${routenum}" class="routeCard">
+                        <p>Route: ${routenum}</p>
+                        <p style="text-align:center;font-weight:bold;">${showRoute(route).join(", ")}</p>
+                        <p>total distance:</p>
+                        <p style="text-align:center;font-weight:bold;font-size:16pt;">${route.totalDistance}</p>
+                        </a>`
+                }
+                else if(sortByNumber == "null"){
+                    routenum++;
+                    document.getElementById('routes').innerHTML += `<a style="background-color: rgba(`+(routenum*10)+`,`+((255)-(routenum*10))+`,0,0.3)" onclick="clickRoute('${showRoute(route)}')" id="route${routenum}" class="routeCard">
+                        <p>Route: ${routenum}</p>
+                        <p style="text-align:center;font-weight:bold;">${showRoute(route).join(", ")}</p>
+                        <p>total distance:</p>
+                        <p style="text-align:center;font-weight:bold;font-size:16pt;">${route.totalDistance}</p>
+                        </a>`
+                }
     
             })
         }
         drawCanvas(false)
     }
+}
+
+function clickRoute(route){
+    c.clearRect(0,0,canvas.width, canvas.height)
+    var ar = route.toLowerCase()
+    for(var s in pysakit){
+        pysakit[s].color = "blue";
+    }
+    for(var i = 0; i < ar.length; i++){
+        if(ar[i] != ','){
+            if(i == 0){
+                pysakit[ar[i]].color = "green";
+                c.beginPath();
+                // c.strokeStyle = "red";
+                c.lineWidth = 6;
+                c.moveTo(pysakit[ar[i]].x+offsetX, pysakit[ar[i]].y+offsetY)
+            }
+            else if(i == ar.length-1) {
+                pysakit[ar[i]].color = "red";
+                c.lineTo(pysakit[ar[i]].x+offsetX, pysakit[ar[i]].y+offsetY)
+            }
+            else {
+                pysakit[ar[i]].color = "orange";
+                c.lineTo(pysakit[ar[i]].x+offsetX, pysakit[ar[i]].y+offsetY)
+            }
+                
+        }
+    }
+    c.stroke()
+    drawCanvas(false)
+
 }
 
 function showRoute(route){
@@ -274,6 +321,7 @@ function getRoute(start, end){
     function checkRoute(node){ // node == route[start]
         //check the children
         for(var i = 0; i < node.children.length; i++) {
+
             //if node is not checked in the branch
             if(node.checked[node.children[i].name] == undefined){
                 var totalDistance = node.children[i].distance+node.totalDistance;
