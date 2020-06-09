@@ -164,7 +164,6 @@ canvas.addEventListener('mousedown',function(e){
     var x = e.clientX;
     var y = e.clientY;
     if(mode == 1 || mode == 4){
-        
         linestart.x = x;
         linestart.y = y;
     } else if(mode == 2){

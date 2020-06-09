@@ -9,18 +9,208 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Miikatoimii Github</title>
     <link rel="stylesheet" href="style.css" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
-<div id="centerpiece">h
-    <h2>Testing different things with canvas element</h2>
-    <a class="link1" href="./light/index.html" target="_blank">Light</a>
-    <a class="link1" href="./weather/index.html" target="_blank">Weather</a>
-    <a class="link1" href="./comet/index.html" target="_blank">Comet</a>
-    <a class="link1" href="./platform2D/index.html" target="_blank">Platform 2D</a>
-</div>
+    <div id="centerpiece">
+
+        <canvas id="header"></canvas>
+            <button onclick="startIntro()" id="introButton">play</button>
+        <div id="menu">
+            <div class="menu_btn">canvas
+                <div class="dropdown_menu">
+                    <a class="link1" href="./light/index.html" target="_blank">Light</a>
+                    <a class="link1" href="./weather/index.html" target="_blank">Weather</a>
+                    <a class="link1" href="./comet/index.html" target="_blank">Comet</a>
+                    <a class="link1" href="./platform2D/index.html" target="_blank">Platform 2D</a>
+                    <a class="link1" href="./magnets/index.html" target="_blank">Magnets</a>
+                </div>
+            </div>
+            
+            <div class="menu_btn">algorithms
+
+                <div class="dropdown_menu">
+                    <a class="link1" href="./algorithms/index.html" target="_blank">repeating characters</a>
+                    <a class="link1" href="./routes/index.html" target="_blank">route select</a>
+                </div>
+            </div>
+            
+            <div class="menu_btn">contact
+
+            </div>
+
+
+        </div>
+        <div id="static_text">
+
+        </div>
+        <div id="footer">
+            
+        </div>
+    </div>
+
+<script>
+//header canvas scripts
+var canvas = document.getElementById('header');
+var c = canvas.getContext('2d');
+var canvasFixedHeight = 200;
+var iBtn = document.getElementById('introButton');
+window.addEventListener('resize', function(){
+    canvas.width = canvasFixedHeight*4; 
+    iBtn.style.left = canvas.offsetLeft+(canvas.width/2)+"px";
+    iBtn.style.top = canvas.offsetTop+130+"px";
+    tX = canvas.width/2;
+    tY = canvasFixedHeight/2;
+    txt = "Miika's Github"
+    c.font = "60px Solid";
+    c.fillStyle = "black"
+    c.fillText(txt, tX-(c.measureText(txt).width/2)+2, tY+2);
+    c.fillStyle = "white"
+    c.fillText(txt, tX-(c.measureText(txt).width/2), tY);
+})
+function initPage(){
+    canvas.width = canvasFixedHeight*4; 
+    canvas.height = canvasFixedHeight;
+    iBtn.style.display = "block";
+    iBtn.style.left = canvas.offsetLeft+(canvas.width/2)+"px";
+    iBtn.style.top = canvas.offsetTop+130+"px";
+    tX = canvas.width/2;
+    tY = canvasFixedHeight/2;
+    txt = "Miika's Github"
+    c.font = "60px Solid";
+    c.fillStyle = "black"
+    c.fillText(txt, tX-(c.measureText(txt).width/2)+2, tY+2);
+    c.fillStyle = "white"
+    c.fillText(txt, tX-(c.measureText(txt).width/2), tY);
+}
+initPage();
+
+ajaxGet('./staticText.txt').then(value => {
+    document.getElementById('static_text').innerText = value
+})
+// url = string, async = boolean
+function ajaxGet(url){
+    return new Promise((res, rej) => {
+        canvas.width = canvasFixedHeight*4;
+        canvas.height = canvasFixedHeight;
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200)
+                res(this.responseText);
+        }
+        ajax.open("GET", url, true);
+        ajax.send();
+    }).then(value => {
+        return value;
+    }).catch(value => {
+        return "ajax error.";
+    })
+}
+var animationPlaying = false;
+var curtain = new Image();
+curtain.src = './curtain.png';
+curtain.width = canvas.width;
+curtain.height = canvas.height;
+var alpha = 0;
+var curtain1position = 0;
+var curtain2position = canvas.width/2;
+var frame = 0;
+var animationframe = 0;
+var introText = [];
+var animationSequence = 1;
+
+function startIntro(){
+    animationPlaying = true;
+    animationSequence = 1;
+    alpha = 0;
+    curtain1position = 0;
+    curtain2position = canvas.width/2;
+    frame = 0;
+    animationframe = 0;
+    introText = [];
+    iBtn.style.display = "none";
+    canvas.style.background = "rgb(20,20,20)"
+    canvasLoop();
+}
+function canvasLoop(){
+    c.clearRect(0,0, canvas.width, canvas.height)
+    if(animationPlaying) requestAnimationFrame(canvasLoop)
+    playAnimation();
+}
+
+function playAnimation(){
+    frame++;
+    if(frame >= 10){
+        frame = 0;
+        animationframe++;
+    }
+    if(alpha < 1 && animationPlaying) alpha += 0.005;
+    // else alpha = 1;
+    //curtainOpening
+    if(animationSequence == 1){
+        if(canvas.height < 400){
+            canvas.height += 2;
+            curtain1position--;
+            curtain2position++;
+        }
+        else{
+            if(curtain2position < canvas.width-60){
+                curtain1position--;
+                curtain2position++;
+                c.globalAlpha = 1;
+                introText = Math.floor((44-animationframe)/10)
+                c.font = "160px Courier";
+            } else {
+                c.font = "50px Courier";
+                animationSequence++;
+            }
+        }
+            
+    }
+    else if(animationSequence == 2){
+        introText = [
+            "World's shortest film", 
+            "new line 1", 
+            "new line 2", 
+            "new line 3", 
+            "new line 4"
+        ];
+        if(animationframe > 70) animationSequence++;
+    }
+    else if(animationSequence == 3){
+        var d = new Date()
+        var newLineText =  d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();
+        introText = ["THE END", newLineText];
+        if(animationframe > 80) animationSequence++;
+    }
+    //end Sequence
+    else{
+        introText = [];
+        alpha -= 0.004;
+        if(canvas.height > canvasFixedHeight){
+            canvas.height--;
+        }
+        else{
+            animationPlaying = false; //stops the animation loop
+            c.clearRect(0,0, canvas.width, canvas.height)
+            canvas.style.background = "linear-gradient(grey, black 10%,white 90%)";
+            initPage()
+        }
+    }
+
+    if(animationPlaying){
+        c.fillStyle = "white";
+        if(introText.length > 0){
+            for(var t = 0; t < introText.length; t++){
+                c.fillText(introText[t], (canvas.width/2)-(c.measureText(introText[t]).width/2), (canvas.height/3)+t*50 );
+            }
+        }
         
+        c.globalAlpha = alpha;
+        c.drawImage(curtain, 0, 0, canvas.width/2, canvas.height, curtain1position, 0, canvas.width/2, canvas.height)
+        c.drawImage(curtain, canvas.width/2, 0, canvas.width, canvas.height, curtain2position, 0, canvas.width, canvas.height)
+    }
+}
+</script>     
 </body>
 </html>

@@ -1,0 +1,5 @@
+Hello!
+
+My name is Miika Toivanen and I am self-learned web developer. I started coding somewhere around November 2018. 
+
+Most of the time I use native javascript for coding.  

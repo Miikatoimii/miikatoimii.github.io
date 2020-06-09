@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 var gameTiles = [];
 
 var player = {
-    gravity: 0.6,
+    gravity: 0.9 ,
     x: 300,
     y: 200,
     size: 40,
@@ -49,7 +49,6 @@ var player = {
             this.upcollX = this.x+(this.size/2); this.upcollY = this.y-1
             this.downcollX = this.x+(this.size/2); this.downcollY = this.y+this.size;
 
-
             gameTiles.forEach(tile => {
                 if(this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY > tile.y && this.leftcollY < tile.y+tile.size ||
                     this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY-5 > tile.y && this.leftcollY-5 < tile.y+tile.size ||
@@ -78,49 +77,60 @@ var player = {
                 }
             });
         }
+    },
+    movement: function(){
+        
+        if(this.isRunning){this.speed = 5; this.color ="darkgreen" } 
+        else if(!this.isRunning) {this.speed = 3; this.color ="green" } 
+        
+        if(!this.isGrounded){
+            if(this.extraJumpForce && this.jumpVelocity < 0) this.extraForce = 0.6;
+            else this.extraForce = 0;
+            this.y += this.jumpVelocity += this.gravity - (this.extraForce);
+        }
+        if(this.y+this.size > canvas.height) {
+            this.resetJump();
+            this.y = canvas.height-this.size;
+        }
+        if(this.isMovingLeft){
+            if(this.speedLeft > this.speed)
+                this.speedLeft = this.speed
+            this.x -= this.speedLeft += this.moveVelocity
+        } else if(!this.isMovingLeft){
+            if(this.speedLeft > 0) this.speedLeft -= this.moveVelocity
+            this.x -= this.speedLeft 
+            if(this.speedLeft < 0){
+                this.speedLeft = 0;
+            } 
+        }
+        if(this.isMovingRight){
+            if(this.speedRight > this.speed)
+                this.speedRight = this.speed
+            this.x += this.speedRight += this.moveVelocity
+        } else if(!this.isMovingRight){
+            if(this.speedRight > 0) this.speedRight -= this.moveVelocity
+            this.x += this.speedRight
+            if(this.speedRight < 0) {
+                this.speedRight = 0;
+            }
+        }
     }
 }
 
 function worldCycle(){
     player.checkCollision();
-    if(player.isRunning) player.speed = 5;
-    else if(!player.isRunning) player.speed = 3;
-    if(!player.isGrounded){
-        if(player.extraJumpForce && player.jumpVelocity < 0) player.extraForce = 0.33;
-        else player.extraForce = 0;
-        player.y += player.jumpVelocity += player.gravity - (player.extraForce);
-    }
-    if(player.y+player.size > canvas.height) {
-        player.resetJump();
-        player.y = canvas.height-player.size;
-    }
-    if(player.isMovingLeft){
-        if(player.speedLeft > player.speed)
-            player.speedLeft = player.speed
-        player.x -= player.speedLeft += player.moveVelocity
-    } else if(!player.isMovingLeft){
-        if(player.speedLeft > 0) player.speedLeft -= player.moveVelocity
-        player.x -= player.speedLeft 
-        if(player.speedLeft < 0) player.speedLeft = 0;
-    }
-    if(player.isMovingRight){
-        if(player.speedRight > player.speed)
-            player.speedRight = player.speed
-        player.x += player.speedRight += player.moveVelocity
-    } else if(!player.isMovingRight){
-        if(player.speedRight > 0) player.speedRight -= player.moveVelocity
-        player.x += player.speedRight
-        if(player.speedRight < 0) player.speedRight = 0;
-    }
-    
+    player.movement();
 }
-window.addEventListener('keydown',(e)=>{
 
+window.addEventListener('keydown',(e)=>{
     if(e.keyCode == 65){
         player.isMovingLeft = true;
     }
     if(e.keyCode == 68){ 
         player.isMovingRight = true;
+    }
+    if(e.keyCode == 16){
+        player.isRunning = true
     }
     if(e.keyCode == 32 && player.isGrounded && !player.isJumping){
         player.jump();
@@ -131,12 +141,12 @@ window.addEventListener('keydown',(e)=>{
 window.addEventListener('keyup',(e)=>{
     if(e.keyCode == 65){
         player.isMovingLeft = false;
-        player.isRunning = false;
     }
     if(e.keyCode == 68){ 
         player.isMovingRight = false;
-        player.isRunning = false;
-        
+    }
+    if(e.keyCode == 16){
+        player.isRunning = false
     }
     if(e.keyCode == 32){
         player.extraJumpForce = false;

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pathfind</title>
+<style>
+body{
+    margin: 0;
+}
+canvas{
+    background-color: beige;
+    display: block;
+    margin: 0 auto;
+}
+select{
+    width: 100px;
+    display: block;
+    margin: 10px auto;
+}
+#routes{
+    width: fit-content;
+    margin: 0 auto;
+}
+.routeCard{
+    width: 100%;
+}
+.routeCard p{
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+}
+.routeCard p:last-child{
+    margin-bottom: 30px;
+}
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<select id="start" onchange="setRoute()">
+    <option value="0" disabled selected hidden>select start</option>
+</select>
+<select id="end" onchange="setRoute()">
+    <option value="0" disabled selected hidden>select end</option>
+</select>
+<div id="routes">
+
+</div>
+<script src="canvasSetup.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithms</title>
+<style>
+.center{  
+width: 600px;
+margin: 0 auto;
+}
+h2{
+    margin-top: 50px;
+}
+.code{
+    background: rgb(194, 194, 194);
+    width: fit-content;
+    padding: 10px;
+}
+.var{
+    color: rgb(2, 230, 230);
+}
+.blue{
+    color: rgb(81, 81, 246);
+}
+.yellow{
+    color: rgb(185, 159, 10);
+}
+.comment{
+    color: rgb(27, 104, 27);
+}
+.return{
+    color: blueviolet;
+}
+</style>
+</head>
+<body>
+    <div class="center">
+        <!-- 1. -->
+        <h2>1. select the first dublicate item in each array</h2>
+        <div class="code">
+            <code>
+                array1 = [1, 2, 1, 2, 3, 3, 4]; <br>
+                array2 = [2, 1, 3, 5, 3, 2]; <br>
+                array3 = [1, 2, 3, 4, 5, 6]; <br>
+            </code>
+        </div>
+        <p>answer to array1 <span id="a1"></span> <button onclick="document.getElementById('a1').innerHTML = '= <b>'+ firstDuplicateCharacter(array1)+'</b>'">get answer</button></p>
+        <p>answer to array2 <span id="a2"></span> <button onclick="document.getElementById('a2').innerHTML = '= <b>'+ firstDuplicateCharacter(array2)+'</b>'">get answer</button></p>
+        <p>answer to array3 <span id="a3"></span> <button onclick="document.getElementById('a3').innerHTML = '= <b>'+ firstDuplicateCharacter(array3)+'</b>'">get answer</button></p>
+        <p>code:</p>
+        <div class="code">
+            <code>
+            function firstDuplicateCharacter(array){<br>
+            &nbsp;&nbsp;var hashSet = {};<br>
+            &nbsp;&nbsp;for(var i = 0; i < array.length; i++){<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if(hashSet[array[i]] == undefined){<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet[array[i]] = false;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet[array[i]] = true;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return array[i]<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;} <br>
+            &nbsp;&nbsp;return "no duplicate character."; <br>
+            }
+            </code>
+        </div>
+        <p>In the code above, we loop though an array and each time we check if the array item exists in the hashSet object. If not, we insert the item into the hashSet. If yes, we return the item value.</p>       
+            
+    
+        
+        <!-- 2. -->
+        <h2>2. select the first non-repeating cheracter in a string</h2>
+        <div class="code">
+            <code>
+                str1  = 'aaabcccdeeef'; <br>
+                str2 = 'abcbad'; <br>
+                str3 = 'abcabcabc'; <br>
+            </code>
+        </div>
+        <p> answer to str1 <span id="str1"></span> <button onclick="document.getElementById('str1').innerHTML = '= <b>'+ firstNonRepeatingCharacter(str1) +'</b>'">get answer</button></p>
+        <p> answer to str1 <span id="str2"></span> <button onclick="document.getElementById('str2').innerHTML = '= <b>'+ firstNonRepeatingCharacter(str2) +'</b>'">get answer</button></p>
+        <p> answer to str1 <span id="str3"></span> <button onclick="document.getElementById('str3').innerHTML = '= <b>'+ firstNonRepeatingCharacter(str3) +'</b>'">get answer</button></p>
+        <p>code:</p>
+        <div class="code">
+            <code>
+                function firstNonRepeatingCharacter(string){ <br>
+                &nbsp;&nbsp;for(var i = 0; i < string.length; i++){ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;c1 = string.slice(i, i+1); <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;match = false; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;for(var b=0; b < string.length; b++){ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;c2 = string.slice(b, b+1); <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(i != b){ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(c1 == c2){ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match = true; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(match == false){ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return c1; <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} <br>
+                &nbsp;&nbsp;} <br>
+                }
+            </code>
+        </div>
+        <p>In the code, we split a character from the string, and then we compare it with each character in the string. If the characters matches, then we break from the loop and compare the character with the second character. If we find no match, then we return the character value.</p>
+    </div>
+<script src="firstDuplicateCharacter.js"></script>
+<script src="firstNonRepeatingCharacter.js"></script>
+<script>
+
+</script>
+</body>
+</html>
