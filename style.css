@@ -1,5 +1,7 @@
 body{
     margin: 0;
+    padding: 10px 0;
+    background-color: #0000002a;
 }
 ::-webkit-scrollbar{
     display: none;
@@ -9,94 +11,138 @@ body{
     flex-direction: column;
     margin: 0 auto;
     width: 800px;
+    box-shadow: 0 0 30px gray;
+    background-color: whitesmoke;
 }
 #header{
     margin: 0;
-    /* background: rgb(195, 195, 195); */
-    background: linear-gradient(grey, black 10%,white 90%);
-}
-#menu >*{
-    font-size: 14pt;
 }
 #menu{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 4px 0;
     margin: 0;
-    height: 30px;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.219), #626262 12%, #bbbbbb 82%, rgba(255, 255, 255, 0.157));
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    display: flex;
+
+    flex-direction: column;
 }
-#menu .menu_btn{
+#menu .sub_title{
+    margin: 30px 0 10px;
+}
+#menu .sub_title:first-of-type{
+    margin: 10px 0 0;
+    text-align: center;
+    border-bottom: 1px solid gray;
+}
+#menu .link1{
     color: whitesmoke;
     text-shadow: 1px 1px 3px black;
-    padding: 0;
-    width: 100px;
+    width: 100%;
+    height: auto;
     text-align: center;
-    margin: 0 3px;
+    padding: 10px;
     border-left: 1px solid ;
     border-right: 1px solid ;
     border-color: rgba(0, 0, 0, 0.52);
-    border-radius: 4px;
-    background-color: rgba(0,0,0,0.067);
     box-shadow: 0 0 1px black;
-    cursor: pointer;
-}
-#menu .menu_btn:first-of-type{
-    margin-left: 0;
-}
-#menu .menu_btn:last-of-type{
-    margin-right: 0;
-}
-.dropdown_menu{
-    display: none;
-    position: absolute;
-    padding: 5px 2px;
-    background-color: rgb(143, 189, 211);
-    border-left: 1px solid ;
-    border-right: 1px solid ;
-    border-color: rgba(0, 0, 0, 0.52);
-    border-radius: 8px;
-    width: inherit;
-    box-sizing: border-box;
-}
-.dropdown_menu .link1{
-    text-decoration: none;
-    color: rgb(234, 234, 245);
-    text-shadow: none;
-    word-wrap: break-word;
-    padding: 0 4px;
-    box-sizing: border-box;
-}
-.dropdown_menu .link1:hover{
-    text-shadow: 1px 0 2px black;
-    border-top: 1px solid ;
-    border-bottom: 1px solid ;
-    border-color: rgba(0, 0, 0, 0.52);
-    border-radius: 8px;
-    background-color: rgba(255,255,255,0.27);
-}
-#menu .menu_btn:hover{
-    background-color: rgba(30, 169, 233, 0.1);
-}
-#menu .menu_btn:hover .dropdown_menu{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: left;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    box-sizing: border-box;
+}
+#menu .link1:last-of-type{
+    color: rgba(81, 85, 88, 0.349);
+    text-shadow: 0 0 1px black;
+    margin-top: 20px;
+}
+#menu .link1:hover{
+    color: #cfcfcf;
+    text-shadow: 0 0 2px black;
+    background-color: #34e0e021;
+    animation: slideIN forwards 0.5s;
+}
+#menu .link1:hover::after{
+    white-space: pre;
+    content: ' \2192';
+    margin: 0;
+    color: gray;
+    text-shadow: none;
+    animation: fadeIN forwards 1s;
+}
+@keyframes fadeIN {
+    from{
+        opacity: 0.0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+#menu .link1:not(:hover){
+    animation: slideOUT forwards 1s;
+}
+@keyframes slideOUT {
+    from{
+        padding-left: 35px;
+        box-sizing: border-box;
+    }
+    to{
+        padding-left: 10px;
+        box-sizing: border-box;
+    }
+}
+@keyframes slideIN {
+    from{
+        padding-left: 10px;
+        box-sizing: border-box;
+    }
+    to{
+        padding-left: 35px;
+        box-sizing: border-box;
+    }
+}
+#menu_icon{
+    width: fit-content;
+    height: fit-content;
+}
+.menu_icon{
+    display: block;
+    height: 5px;
+    width: 35px;
+    border-radius: 2px;
+    background: rgb(88, 88, 88);
+    margin: 3px 0;
+    transform: 0.5s;
+}
+.menu_icon:first-of-type{
+    margin: 0;
+}
+.menu_icon:last-of-type{
+    margin: 0;
+}
+
+#menu #ct_btn{
+    width: 100%;
+    cursor: pointer;
 }
 
 #static_text{
     padding: 20px 10px;
 }
+h3{
+    margin: 50px 0;
+    text-align: center;
+}
 #introButton{
     outline: none;
     position: absolute;
     border: none;
-    color: rgba(0,0,0,0.2);
-    background: rgba(0,0,0,0.1);
+    color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
     border-radius: 28px;
-    box-shadow: 0 0 2px black;
+    box-shadow: 0 0 2px rgb(195, 195, 195);
     
     width: fit-content;
     padding: 8px 20px;

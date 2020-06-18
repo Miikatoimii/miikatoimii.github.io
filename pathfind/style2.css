@@ -1,0 +1,107 @@
+body{
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+canvas{
+    display: block;
+    background-color: rgb(207, 236, 236);
+    margin: 0 auto;
+}
+p{
+    text-align: center;
+}
+#content_holder{
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+    height: 80px;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    height: 100%;
+    margin-right: 20px;
+}
+.inputs .values{
+    outline: none;
+    display: block;
+    padding: 4px;
+    font-size: 16pt;
+    width: 80px;
+    height: 100%;
+    text-align: center;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    width: 260px;
+    justify-content: space-between;
+}
+.buttons button{
+    outline: none;
+    display: inline-block;
+    width: 140px;
+    font-size: larger;
+    text-transform: uppercase;
+    border-radius: 50%;
+    border: none;
+    background: lightgreen;
+    box-shadow: 0 0 4px black;
+    color: darkgreen;
+    text-shadow: 1px 1px 2px black;
+}
+.buttons button:last-of-type{
+    margin-left: 10px;
+    color: darkred;
+    background-image: linear-gradient(50deg, salmon, rgb(179, 3, 3));
+}
+.buttons button:hover{
+    background-image: linear-gradient(-50deg, darkgreen, rgb(11, 70, 11));
+}
+.buttons button:last-of-type:hover{
+    background-image: linear-gradient(50deg, darkred, rgb(179, 3, 3));
+}
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.sets{
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    height: auto;
+}
+.sets >*{
+    font-size: 14pt;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: none;
+    background-image: linear-gradient(-50deg, gray, rgb(109, 136, 109));
+    box-shadow: 0 0 4px black;
+    color: darkgreen;
+    text-shadow: 1px 1px 2px black;
+    color: darkblue;
+}
+.sets >*:hover{
+    background-image: linear-gradient(-50deg, rgb(112, 109, 65), rgb(109, 136, 109));
+    cursor: pointer;
+}
+.sets >*:last-child{
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+    text-align: right;
+    background: none;
+    box-shadow: none;
+    color: black;
+    text-shadow: none;
+}
+.sets >*:last-child:hover{
+    cursor: default;
+}

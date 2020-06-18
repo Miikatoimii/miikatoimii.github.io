@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASSWORD</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<h1>Password Handling</h1>
+<h3>creating your own password hash</h3>
+<div class="body_item">
+    <p class="pwd" id="password"></p>
+    <p>Even if this password was already hard to guess, we want to hash it and store the hashed version into our database.</p>
+    <p>In the worst case cenario, if someone was able to hack into the database and display the content on his screen, the hacker would not see the password as shown above, but rather something like this:</p>
+    <p class="pwd" id="hashedPassWord"></p>
+    <p>This would prevent the hacker from logging in to your account, since the hashed version cannot be used to log in.</p>
+    <p>Try both passwords in the field to see the result.</p>
+    <br>
+    <p id="errors"></p>
+    <input placeholder="password" type="text" onchange="testPassword(this.value)"><button>verify</button>
+</div>
+
+
+<div class="hasher">
+    <h3>How the hash works</h3>
+    <p>we have some sort of string containing all the characters that can be used</p>
+    <p>we have salt number</p>
+    <p>we have our password</p>
+    <p>In this example I'll be using 'password' as my password</p>
+    <p style="margin: 10px;">MY PASSWORD: <b class="robot pwChar">password</b></p>
+    <p style="margin: 10px;">MY SALT: <b class="robot salt">15</b></p>
+    <p style="margin: 10px;">CHARACTERS: <b class="robot">abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%</b></p>
+    <p>Check the length of my password (8)</p>
+    <p>Generate 8 rows of characters (equal to the length of my password)</p>
+    <p class="robot">[</p>
+    <p class="robot">'abcdefghijklmno<b class="pwChar">p</b>qrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'<b class="pwChar">a</b>bcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'abcdefghijklmnopqr<b class="pwChar">s</b>tuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'abcdefghijklmnopqr<b class="pwChar">s</b>tuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'abcdefghijklmnopqrstuv<b class="pwChar">w</b>xyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'abcdefghijklmn<b class="pwChar">o</b>pqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'abcdefghijklmnopq<b class="pwChar">r</b>rstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'a<b class="pwChar">d</b>cdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%'</p>
+    <p class="robot">]</p>
+    <p>reorder each row by the password character</p>
+    <p class="robot">[</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">p</b>qrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmno',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">a</b>bcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">s</b>tuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">s</b>tuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">w</b>xyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqrstuv',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">o</b>pqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmn',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">r</b>stuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopq',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">d</b>efghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abc'</p>
+    <p class="robot">]</p>
+    <p>See how each first letter in the rows form the current password. This is where the salt number comes for.</p>
+    <p>at each row choose the 15th character according to our <b class="salt">salt</b></p>
+    <p class="robot">[</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">p</b>qrstuvwxyzåäöA<b style="color:black;text-shadow:0 0 2px orange">B</b>CDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmno',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">a</b>bcdefghijklmno<b style="color:black;text-shadow:0 0 2px orange">p</b>qrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">s</b>tuvwxyzåäöABCD<b style="color:black;text-shadow:0 0 2px orange">E</b>FGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">s</b>tuvwxyzåäöABCD<b style="color:black;text-shadow:0 0 2px orange">E</b>FGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">w</b>xyzåäöABCDEFGH<b style="color:black;text-shadow:0 0 2px orange">I</b>JKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqrstuv',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">o</b>pqrstuvwxyzåäö<b style="color:black;text-shadow:0 0 2px orange">A</b>BCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmn',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">r</b>stuvwxyzåäöABC<b style="color:black;text-shadow:0 0 2px orange">D</b>EFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopq',</p>
+    <p class="robot">'<b style="color:black;text-shadow:0 0 2px blue">d</b>efghijklmnopqr<b style="color:black;text-shadow:0 0 2px orange">s</b>tuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abc'</p>
+    <p class="robot">]</p>
+    <p>Currently our new password looks like this <b class="robot" style="color:black;text-shadow:0 0 2px orange">BpEEIASDDs</b>.</p>
+    <p>But this is still too easy to guess. We need to use little bit of convenience to make the hash even harder to guess.</p>
+    <p>At each row I want to increment the salt by one.</p>
+    
+    <p class="robot">[</p>
+    <p class="robot">'<b class="pwChar">p</b>qrstuvwxyzåäöA<b class="salt">B</b>CDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmno',</p>
+    <p class="robot">'<b class="pwChar">a</b>bcdefghijklmnop<b class="salt">q</b>rstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'<b class="pwChar">s</b>tuvwxyzåäöABCDEF<b class="salt">G</b>HIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b class="pwChar">s</b>tuvwxyzåäöABCDEFG<b class="salt">H</b>IJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'<b class="pwChar">w</b>xyzåäöABCDEFGHIJKL<b class="salt">M</b>NOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqrstuv',</p>
+    <p class="robot">'<b class="pwChar">o</b>pqrstuvwxyzåäöABCDE<b class="salt">F</b>GHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmn',</p>
+    <p class="robot">'<b class="pwChar">r</b>stuvwxyzåäöABCDEFGHI<b class="salt">J</b>KLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopq',</p>
+    <p class="robot">'<b class="pwChar">d</b>efghijklmnopqrstuvwxy<b class="salt">z</b>åäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abc'</p>
+    <p class="robot">]</p>
+    <p>Now our current hashed password looks like this <b class="salt">BqGHMFJz</b> but it's still not what we want.</p>
+    <p>Let's increment the value for the <b class="pwChar">blue</b> character and insert it into the hash just after the <b class="salt">salt</b> character</p>
+    <p class="robot">[</p>
+    <p class="robot">'p<b class="pwChar">q</b>rstuvwxyzåäöA<b class="salt">B</b>CDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmno',</p>
+    <p class="robot">'ab<b class="pwChar">c</b>defghijklmnop<b class="salt">q</b>rstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%',</p>
+    <p class="robot">'stu<b class="pwChar">v</b>wxyzåäöABCDEF<b class="salt">G</b>HIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'stuv<b class="pwChar">w</b>xyzåäöABCDEFG<b class="salt">H</b>IJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqr',</p>
+    <p class="robot">'wxyzå<b class="pwChar">ä</b>öABCDEFGHIJKL<b class="salt">M</b>NOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopqrstuv',</p>
+    <p class="robot">'opqrst<b class="pwChar">u</b>vwxyzåäöABCDE<b class="salt">F</b>GHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmn',</p>
+    <p class="robot">'rstuvwx<b class="pwChar">y</b>zåäöABCDEFGHI<b class="salt">J</b>KLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abcdefghijklmnopq',</p>
+    <p class="robot">'defghijk<b class="pwChar">l</b>mnopqrstuvwxy<b class="salt">z</b>åäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%abc'</p>
+    <p class="robot">]</p>
+    <p>Now the current hash has looks like: <b class="robot salt">BqqcGvHwMäFuJyzl</b></p>
+    <p>This hash would already be extremely hard to crack, but we want to extend its length to 60 characters or more. This would make its cracking almost impossible.</p>
+    <p>So we take the length of our current hash (16) and we substract it from 60 (44). 
+        Then we form new <span class="robot">CHARACTERS</span> by the last character in our current hash <span class="robot salt"><b>l</b></span>. Then we loop through the new <span class="robot">CHARACTERS</span> and keep adding new random characters to our hash by the incrementing salt value. The final result will look like this:</p>
+    <p class="robot salt">BqqcGvHwMäFuJyzlEU8jöT#qK5nK8tTdF8y0sZqZs0y8FdTt8Kn5Kq#Töj8U</p>
+    <p>The <span class="robot pwChar">password</span> is hashed above.</p>
+    <p>This value can be stored into the database. Each password will be checked against the hash value.</p>
+    <p>We can use any values and any characters we want. Different set of characters will result in different hashing value. More randomness, more security.</p>
+</div>
+<div style="margin-bottom: 100px;" class="body_item">
+    <h3>Try with your own values</h3>
+    <input id="bi_password" placeholder="password" class="bi_input" type="text" value="password">
+    <input id="bi_salt" placeholder="SALT NUMBER" class="bi_input" type="number" value="15">
+    <input id="bi_characters" placeholder="CHARACTERS" class="bi_input" type="text" value="abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%">
+    <button onclick="ownPasswordGen()">HASH PASSWORD</button>
+    <h2 id="mynewpwd"></h2>
+    <script>
+    function ownPasswordGen(){
+        var nPWD = document.getElementById('bi_password').value;
+        var nSALT = document.getElementById('bi_salt').value;
+        var nCHARS = document.getElementById('bi_characters').value;
+        var inf = new selector('mynewpwd')
+        
+        password.hash(nPWD, parseInt(nSALT), nCHARS).then(value => {
+            inf.html('Password: <b class="pwChar">'+nPWD+'</b><br>Hash: <span class="salt">'+value+'</span>')
+        })
+        
+    }
+    </script>
+</div>
+
+<script src="./hash.js"></script>
+<script>
+var characters = "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ0123456789!#&$@?%";
+var htmlpwd = document.getElementById('password');
+var htmlHashedpwd = document.getElementById('hashedPassWord');
+var myPassword = "password"
+htmlpwd.innerHTML = "<b>PASSWORD:</b> "+myPassword ;
+password.hash(myPassword, 15, characters).then(value => {
+    htmlHashedpwd.innerHTML = "<b>HASHED PASSWORD:</b> "+value
+})
+
+let ers = new selector('errors');
+tttt = undefined;
+function testPassword(pwdvalue){
+    if(pwdvalue.length > 0){
+        let dbPwd = password.hash(myPassword, 15, characters);
+        let inputPwd = password.hash(pwdvalue, 15, characters);
+        Promise.all([dbPwd, inputPwd]).then(values => {
+            if(tttt != undefined) clearInterval(tttt);
+            var opacity = 1;
+            var time = 0;
+            if(values[0] == values[1]){
+                ers.style('color', 'green')
+                ers.html('(Can log in)<br><br>Hash result:<br>'+values[0]+'<br>password correct!')
+            }
+            else {
+                ers.style("color", "red")
+                ers.html('(Can\'t log in)<br><br>Hash result:<br>'+values[0]+'<br>error.')
+            }
+            tttt = setInterval(function(){
+                time++;
+                ers.style('opacity', opacity)
+                if(time > 150) {
+                    opacity -= 0.01
+                    if(opacity <= 0)
+                        clearInterval(tttt);
+                }
+            }, 20)
+
+        })
+    }
+}
+function selector(id){
+    this.element = document.getElementById(id);
+    this.animation = function(animationname){
+        this.element.style.animation = animationname;
+    }
+    this.style = function(stylepropertyname, value){
+        this.element.style[stylepropertyname] = value;
+    }
+    this.html = function(value){
+        this.element.innerHTML = value;
+    }
+    this.txt = function(value){
+        this.element.innerText = value;
+    }
+    this.attribute = function(attributeName, attributeValue){
+        this.element.setAttribute(attributeName, attributeValue);
+    }
+    this.rmAttribute = function(attributeName){
+        this.element.removeAttribute(attributeName);
+    }
+}
+
+// var str = "hellopello && this is funny BUNNY123";
+// console.log(str)
+// console.log(str.replace(/hello/g, '#')); // all hello's in the string
+// console.log(str.replace(/\bhello\b|\bfunny\b/g, '#')) // all hello's as standalone word
+// console.log(str.replace(/[a-z]/g, '#')) // all characters from a to z
+// console.log(str.replace(/[a-zA-Z]/g, '#')) // all characters from a to z and A to Z
+// console.log(str.replace(/[a-zA-Z0-9]/g, '#')) // all characters from a to z and A to Z and 0-9
+</script>
+</body>
+</html>

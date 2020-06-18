@@ -15,42 +15,88 @@
     <div id="centerpiece">
 
         <canvas id="header"></canvas>
-            <button onclick="startIntro()" id="introButton">play</button>
+        <button onclick="startIntro()" id="introButton">play intro</button>
         <div id="menu">
-            <div class="menu_btn">canvas
-                <div class="dropdown_menu">
-                    <a class="link1" href="./light/index.html" target="_blank">Light</a>
-                    <a class="link1" href="./weather/index.html" target="_blank">Weather</a>
-                    <a class="link1" href="./comet/index.html" target="_blank">Comet</a>
-                    <a class="link1" href="./platform2D/index.html" target="_blank">Platform 2D</a>
-                    <a class="link1" href="./magnets/index.html" target="_blank">Magnets</a>
-                </div>
-            </div>
-            
-            <div class="menu_btn">algorithms
-
-                <div class="dropdown_menu">
-                    <a class="link1" href="./algorithms/index.html" target="_blank">repeating characters</a>
-                    <a class="link1" href="./routes/index.html" target="_blank">route select</a>
-                </div>
-            </div>
-            
-            <a onclick="changeThis(this.id, String.fromCharCode(109,105,105,107,97,116,111,105,118,97,110,101,110,57,49,64,103,109,97,105,108,46,99,111,109))" id="ct_btn" class="menu_btn">contact</a>
+            <a class="sub_title" style="font-size: 22pt">MENU</a>
+            <a class="sub_title">EXPERIMENTS</a>
+            <a class="link1" href="./light/index.html" target="_blank">Light</a>
+            <a class="link1" href="./lightning/index.html" target="_blank">Lightning simulation</a>
+            <a class="link1" href="./platform2D/index.html" target="_blank">Platform 2D</a>
+            <a class="link1" href="./magnets/index.html" target="_blank">Magnets</a>
+            <a class="sub_title">GAMES</a>
+            <a class="link1" href="./comet/index.html" target="_blank">Comet</a>
+            <a class="sub_title">ALGORITHMS</a>
+            <a class="link1" href="./algorithms/index.html" target="_blank">repeating characters</a>
+            <a class="link1" href="./routes/index.html" target="_blank">route select</a>
+            <a class="link1" href="./pathfind/index.html" target="_black">Pathfind grid</a>
+            <a class="link1" href="./pathfind/hexgrid.html" target="_black">Pathfind Hex</a>
+            <a class="link1" href="./password/index.html" target="_blank">Password hash</a>
+            <a class="link1" onclick="changeThis(this, String.fromCharCode(109,105,105,107,97,116,111,105,118,97,110,101,110,57,49,64,103,109,97,105,108,46,99,111,109))" id="ct_btn">contact</a>
             <script>
-                function changeThis(id, value){
-                    document.getElementById(id).style.width = "fit-content";
-                    document.getElementById(id).removeAttribute("onclick")
-                    document.getElementById(id).innerText = value;
+                function changeThis(element, value){
+                    element.style.textTransform = "lowercase";
+                    element.style.textShadow = "none";
+                    element.innerHTML = `<a href="mailto:${value}">${value}</a>`;
                 }
             </script>
-
         </div>
+
         <div id="static_text">
+            <h3>Self-rating of different languages from 1 to 100</h3>
+            <canvas id="experienceTable"></canvas>
 
+            <script>
+                function toRadians(angle){
+                    return angle * (Math.PI/180);
+                }
+                var list = [
+                    {name:"Javascript", points: 90, color:"green"},
+                    {name:"HTML",       points: 90, color:"blue"},
+                    {name:"CSS",        points: 90, color:"yellow"},
+                    {name:"Php",        points: 60, color:"orange"},
+                    {name:"Java",       points: 40, color:"cyan"}
+                ];
+                var totalPoints = 0;
+                list.forEach(skill => {
+                    totalPoints += skill.points
+                })
+                var can = document.getElementById('experienceTable');
+                can.width = 450;
+                can.height = 450;
+                can.style.margin = "0 auto";
+                can.style.display = "block";
+                var cc = can.getContext('2d');
+                var radius = 180;
+                var x = can.width/2-40;
+                var y = can.height/2;
+                var angle = 0
+                list.forEach(skill => {
+                    cc.beginPath();
+                    angle += skill.points/totalPoints*360;
+                    cc.moveTo(x, y);
+                    cc.arc(x, y, radius, toRadians(angle-skill.points/totalPoints*360), toRadians(angle));
+                    newX = (Math.cos(toRadians(angle)) * radius);
+                    newY = (Math.tan(toRadians(angle)) * newX)
+                    cc.lineTo(x+newX, y+newY);
+                    cc.fillStyle = skill.color;
+                    cc.globalAlpha= 0.5
+                    cc.fill();
+                    cc.globalAlpha= 1
+                    cc.stroke();
+                    angle2 = angle - (skill.points/totalPoints * 360)/1.3 + 8
+                    newX = (Math.cos(toRadians(angle2)) * (radius+100));
+                    newY = (Math.tan(toRadians(angle2)) * newX)
+                    if(skill.name == "HTML"){newX -= 60; newY -= 40} 
+                    if(skill.name == "Javascript") newX -= 50
+                    cc.font = "14pt Arial"
+                    cc.fillStyle = "black"
+                    cc.fillText(skill.name+": "+skill.points, x+(newX/1.5)-10+1, y+(newY/1.5)+1)
+                    cc.fillStyle = skill.color;
+                    cc.fillText(skill.name+": "+skill.points, x+(newX/1.5)-10, y+(newY/1.5))
+                })
+            </script>
         </div>
-        <div id="footer">
-            
-        </div>
+        <h3 style="display: block;width: 100%;" id="c_times"></h3>
     </div>
 
 <script>
@@ -60,6 +106,22 @@ var c = canvas.getContext('2d');
 var canvasFixedHeight = 200;
 canvas.height = canvasFixedHeight;
 var iBtn = document.getElementById('introButton');
+var clouds = {};
+var cloudTimer = 0;
+
+var animationPlaying = false;
+var curtain = new Image();
+curtain.src = './curtain.png';
+curtain.width = canvas.width;
+curtain.height = canvas.height;
+var alpha = 0;
+var curtain1position = 0;
+var curtain2position = canvas.width/2;
+var frame = 0;
+var animationframe = 0;
+var introText = [];
+var animationSequence = 1;
+
 window.addEventListener('resize', function(){
     canvas.width = canvasFixedHeight*4; 
     iBtn.style.left = canvas.offsetLeft+(canvas.width/2)+"px";
@@ -80,17 +142,25 @@ function initPage(){
     iBtn.style.top = canvas.offsetTop+130+"px";
     tX = canvas.width/2;
     tY = canvasFixedHeight/2;
-    txt = "Miika's Github"
-    c.font = "60px Solid";
-    c.fillStyle = "black"
-    c.fillText(txt, tX-(c.measureText(txt).width/2)+2, tY+2);
-    c.fillStyle = "white"
-    c.fillText(txt, tX-(c.measureText(txt).width/2), tY);
+    canvas.style.backgroundImage = "linear-gradient(#9fbdbd, #516e6e)";
+    clouds = {};
+    cloudTimer = 0;
+    headerLoop()
 }
 
-ajaxGet('./staticText.txt').then(value => {
-    document.getElementById('static_text').innerText = value
-})
+var current = new Date().getTime();
+var dateStarted = 1542247300469;
+var timeSpent = current-dateStarted;
+seconds = timeSpent/1000;
+minutes = seconds/60;
+hours = minutes/60;
+days = hours/24;
+months = days/30.4375
+years = Math.floor(months/12) > 1 ? " years, " : " year, ";
+month = Math.floor(months%12) > 1 ? " months" : " month"
+estmTime = Math.floor(months/12) + years + Math.floor(months%12) + month;
+document.getElementById('c_times').innerHTML = "Estimated time spent on coding <br>"+estmTime;
+
 // url = string, async = boolean
 function ajaxGet(url){
     return new Promise((res, rej) => {
@@ -109,18 +179,6 @@ function ajaxGet(url){
         return "ajax error.";
     })
 }
-var animationPlaying = false;
-var curtain = new Image();
-curtain.src = './curtain.png';
-curtain.width = canvas.width;
-curtain.height = canvas.height;
-var alpha = 0;
-var curtain1position = 0;
-var curtain2position = canvas.width/2;
-var frame = 0;
-var animationframe = 0;
-var introText = [];
-var animationSequence = 1;
 
 function startIntro(){
     animationPlaying = true;
@@ -134,6 +192,63 @@ function startIntro(){
     iBtn.style.display = "none";
     canvas.style.background = "rgb(20,20,20)"
     canvasLoop();
+}
+function headerLoop(){
+    c.clearRect(0,0, canvas.width, canvas.height);
+    if(!animationPlaying) requestAnimationFrame(headerLoop)
+    playHeader();
+    txt = "Miika's Github"
+    c.font = "60px Solid";
+    c.fillStyle = "black"
+    c.fillText(txt, 50+2, 80+1);
+    c.fillStyle = "white"
+    c.fillText(txt, 50, 80);
+}
+headerLoop()
+function playHeader(){
+    if(Object.keys(clouds).length < 40){
+            cx = 10+(Math.random()*canvas.width-20);
+            cy = 10+(Math.random()*canvas.height-20);
+            clouds[Object.keys(clouds).length] = new Cloud(cx+(Math.random()*20), cy+(Math.random()*20))
+            
+        
+    }
+    if(Object.keys(clouds).length > 0){
+        for(var i in clouds){
+            if(clouds[i].moveRight) clouds[i].x += clouds[i].speed+(clouds[i].r/100)*2;
+            else clouds[i].x -= clouds[i].speed+(clouds[i].r/100)*2;
+            
+            if(clouds[i].moveUp) clouds[i].y -= clouds[i].speed+(clouds[i].r/100);
+            else clouds[i].y += clouds[i].speed+(clouds[i].r/100);
+            if(clouds[i].y > canvas.height-clouds[i].r) clouds[i].moveUp = true;
+            if(clouds[i].y < 0+clouds[i].r) clouds[i].moveUp = false;
+            if(clouds[i].grow) clouds[i].r += clouds[i].r/500;
+            else clouds[i].r -= clouds[i].r/500;
+            if(clouds[i].r > 20) clouds[i].grow = false
+            if(clouds[i].r < 5) clouds[i].grow = true
+            clouds[i].drawCloud();
+            if(clouds[i].x > canvas.width-clouds[i].r) clouds[i].moveRight = false;
+            if(clouds[i].x < clouds[i].r) clouds[i].moveRight = true;
+            
+        }
+    }
+}
+function Cloud(x, y){
+    this.x = x;
+    this.y = y;
+    this.moveUp = this.y > 200 ? true : false;
+    this.moveRight = this.x > 400 ? false : true;
+    this.speed = (Math.random()*4)/10;
+    this.r = Math.random()*15 + 5;
+    this.grow = this.r > 10 ? false : true;
+    this.drawCloud = function(){
+        c.beginPath();
+        c.fillStyle = "white";
+        c.globalAlpha = 0.1;
+        c.arc(this.x, this.y, this.r, 0, Math.PI*2);
+        c.fill();
+        c.globalAlpha = 1;
+    }
 }
 function canvasLoop(){
     c.clearRect(0,0, canvas.width, canvas.height)
@@ -152,9 +267,9 @@ function playAnimation(){
     //curtainOpening
     if(animationSequence == 1){
         if(canvas.height < 400){
-            canvas.height += 2;
-            curtain1position--;
-            curtain2position++;
+            canvas.height += 4;
+            curtain1position-=2;
+            curtain2position+=2;
         }
         else{
             if(curtain2position < canvas.width-60){
@@ -171,40 +286,80 @@ function playAnimation(){
             
     }
     else if(animationSequence == 2){
-        c.font = "30px Courier";
+        c.font = "50px Courier";
         introText = [
-            "Welcome to my Github page"
+            "Hello"
         ];
-        if(animationframe > 50) animationSequence++;
+        if(animationframe > 40) animationSequence++;
     }
     else if(animationSequence == 3){
-    
+        c.font = "35px Courier";
         introText = [
-            "Sometimes I upload", 
-            "some fancy stuff to this page",
+            "Welcome to my Github page!"
         ];
-        if(animationframe > 70) animationSequence++;
+        if(animationframe > 55) animationSequence++;
 
     }
     else if(animationSequence == 4){
-    
+        c.font = "30px Courier";
         introText = [
-            "Be sure to check out", 
-            "all the links in the",
-            "navigation bar below"
+            "My name is Miika Toivanen", 
+            "I am self-learned",
+            "web developer/programmer"
         ];
-        if(animationframe > 95) animationSequence++;
+        if(animationframe > 80) animationSequence++;
 
     }
     else if(animationSequence == 5){
+        c.font = "28px Courier";
         introText = [
-            "Thank you for visiting",
-            "this place",
-            "and have a nice day!"
+            "I started coding somewhere",
+            "around November 2018",
+            "and I've been coding ever since,",
+            "almost non-stop"
         ];
-        if(animationframe > 120) animationSequence++;
-
+        if(animationframe > 110) animationSequence++;
     }
+    else if(animationSequence == 6){
+        c.font = "26px Courier";
+        introText = [
+            "I set up this github page",
+            "so I can share some of my",
+            "content with you"
+        ];
+        if(animationframe > 135) animationSequence++;
+    }
+    else if(animationSequence == 7){
+        c.font = "34px Courier";
+        introText = [
+            "Please be sure to check",
+            "all the links in the menu",
+        ];
+        if(animationframe > 160) animationSequence++;
+    }   
+    else if(animationSequence == 8){
+        c.font = "34px Courier";
+        introText = [
+            "If you want to contact me",
+            "you can do it via email",
+        ];
+        if(animationframe > 186) animationSequence++;
+    } 
+    else if(animationSequence == 9){
+        c.font = "20px Courier";
+        introText = [
+            "Please, click contact button",
+            "at the bottom of menu"
+        ];
+        if(animationframe > 210) animationSequence++;
+    } 
+    else if(animationSequence == 10){
+        c.font = "30px Courier";
+        introText = [
+            "Have a wonderful day!",
+        ];
+        if(animationframe > 235) animationSequence++;
+    } 
     //end Sequence
     else{
         introText = [];
@@ -214,8 +369,6 @@ function playAnimation(){
         }
         else{
             animationPlaying = false; //stops the animation loop
-            c.clearRect(0,0, canvas.width, canvas.height)
-            canvas.style.background = "linear-gradient(grey, black 10%,white 90%)";
             initPage()
         }
     }
@@ -234,6 +387,8 @@ function playAnimation(){
     }
 }
 initPage();
+
+
 </script>     
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<link rel='stylesheet' href='style2.css' type='text/css'>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+</head>
+<body>
+<canvas id='canvas'></canvas>
+<div id="content_holder">
+    <h1>HexGrid</h1>
+    <div class="sets">
+        <button onclick="setTask('draw')">draw walls</button>
+        <button onclick="setTask('route')">set route</button>
+        <span id="task">set walls</span>
+    </div>
+    <div class="inputs">
+        <input placeholder="start" onchange="ss=this.value" id="startnode" class="values" type="number">
+        <input placeholder="end" onchange="ee=this.value" id="endnode" class="values" type="number">
+    </div>
+    <div class="buttons">
+        <button onclick="starRoute()" id="pathBtn">getPath</button>
+        <button style="font-size: 50pt;" title="clear canvas area" onclick="initPage()" id="clearBtn">&times;</button>
+    </div>
+</div>
+<script src="../math.js"></script>
+<script>
+var canvas = document.querySelector('canvas');
+var c = canvas.getContext('2d');
+</script>
+<script src='script2.js'></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+body{
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+canvas{
+    display: block;
+    background-color: rgb(207, 236, 236);
+    margin: 0 auto;
+}
+p{
+    text-align: center;
+}
+button{
+    display: block;
+    margin: 3px auto;
+    width: 100px;
+}
