@@ -1,7 +1,7 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 800;
+canvas.height = 600;
 
 var gameTiles = [];
 
@@ -10,7 +10,7 @@ var player = {
     x: 300,
     y: 200,
     size: 40,
-    showCollisionPoint: false,
+    showCollisionPoint: true,
     color: "green",
     speed: 3.4,
     speedLeft: 0,
@@ -32,6 +32,7 @@ var player = {
     isMovingLeft: false,
     isMovingRight: false,
     extraJumpForce: false,
+    collisionSize: 5, 
     jump: function(){
         this.y -= 0.1
         this.jumpVelocity = -9
@@ -50,30 +51,30 @@ var player = {
             this.downcollX = this.x+(this.size/2); this.downcollY = this.y+this.size;
 
             gameTiles.forEach(tile => {
+
+                if(this.downcollX < tile.x+tile.size && this.downcollX > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ||
+                   this.downcollX-this.collisionSize < tile.x+tile.size && this.downcollX-this.collisionSize > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ||
+                   this.downcollX+this.collisionSize < tile.x+tile.size && this.downcollX+this.collisionSize > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ){
+                    this.y = tile.y-this.size
+                    this.isGrounded = true;
+                    this.jumpVelocity = 0;
+                }
+                if(this.upcollX < tile.x+tile.size && this.upcollX > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size ||
+                    this.upcollX-this.collisionSize < tile.x+tile.size && this.upcollX-this.collisionSize > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size ||
+                    this.upcollX+this.collisionSize < tile.x+tile.size && this.upcollX+this.collisionSize > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size){
+                    this.jumpVelocity = 0.3
+                }
                 if(this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY > tile.y && this.leftcollY < tile.y+tile.size ||
-                    this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY-5 > tile.y && this.leftcollY-5 < tile.y+tile.size ||
-                    this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY+5 > tile.y && this.leftcollY+5 < tile.y+tile.size){
+                    this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY-this.collisionSize > tile.y && this.leftcollY-this.collisionSize < tile.y+tile.size ||
+                    this.leftcollX < tile.x+tile.size && this.leftcollX > tile.x && this.leftcollY+this.collisionSize > tile.y && this.leftcollY+this.collisionSize < tile.y+tile.size){
                     this.x = tile.x+tile.size
                     this.speedLeft = 0;
                 }
                 if(this.rightcollX < tile.x+tile.size && this.rightcollX > tile.x && this.rightcollY > tile.y && this.rightcollY < tile.y+tile.size ||
-                    this.rightcollX < tile.x+tile.size && this.rightcollX > tile.x && this.rightcollY-5 > tile.y && this.rightcollY-5 < tile.y+tile.size ||
-                    this.rightcollX < tile.x+tile.size && this.rightcollX > tile.x && this.rightcollY+5 > tile.y && this.rightcollY+5 < tile.y+tile.size){
+                    this.rightcollX < tile.x+tile.size && this.rightcollX > tile.x && this.rightcollY-this.collisionSize > tile.y && this.rightcollY-this.collisionSize < tile.y+tile.size ||
+                    this.rightcollX < tile.x+tile.size && this.rightcollX > tile.x && this.rightcollY+this.collisionSize > tile.y && this.rightcollY+this.collisionSize < tile.y+tile.size){
                     this.x = tile.x-this.size
                     this.speedRight = 0;
-                }
-                if(this.upcollX < tile.x+tile.size && this.upcollX > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size ||
-                    this.upcollX-5 < tile.x+tile.size && this.upcollX-5 > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size ||
-                    this.upcollX+5 < tile.x+tile.size && this.upcollX+5 > tile.x && this.upcollY > tile.y && this.upcollY < tile.y+tile.size){
-                    this.jumpVelocity = 0.3
-                }
-                if(this.downcollX < tile.x+tile.size && this.downcollX > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ||
-                   this.downcollX-5 < tile.x+tile.size && this.downcollX-5 > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ||
-                   this.downcollX+5 < tile.x+tile.size && this.downcollX+5 > tile.x && this.downcollY >= tile.y && this.downcollY < tile.y+tile.size ){
-                    this.y = tile.y-this.size
-                    this.isGrounded = true;
-                    this.jumpVelocity = 0;
-                    
                 }
             });
         }
@@ -82,7 +83,6 @@ var player = {
         
         if(this.isRunning){this.speed = 6 ; this.color ="darkgreen" } 
         else if(!this.isRunning) {this.speed = 3; this.color ="green" } 
-     
   
         if(!this.isGrounded){
             if(this.jumpVelocity > 17) this.jumpVelocity = 17;
@@ -167,7 +167,8 @@ window.addEventListener('keyup',(e)=>{
     }
 })
 canvas.addEventListener('click', (e)=>{
-    gameTiles.push(new Tile(Math.floor(e.clientX/40)*40, Math.floor(e.clientY/40)*40))
+    let box = canvas.getBoundingClientRect()
+    gameTiles.push(new Tile(Math.floor((e.clientX-box.x)/40)*40, Math.floor((e.clientY-box.y)/40)*40))
 })
 
 var loop = function() {
@@ -253,13 +254,3 @@ function resetStats(){
     document.getElementById('jveldin').value = 2;
     document.getElementById('mvelin').value = 16;
 }
-
-
-window.addEventListener('resize', ()=>{
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    player.x = 100;
-    player.y = 100;
-    clearTiles()
-})

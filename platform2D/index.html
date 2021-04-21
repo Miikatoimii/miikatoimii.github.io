@@ -7,72 +7,27 @@
 <style>
 body{
     margin: 0;
-    width: 100vw;
-    height: 100vh;
 }
 canvas{
-    background-color: beige;
-}
-#ohjeet{
-    position: fixed;
-    top: 0;
-    right: 0;
-    padding: 30px;
-    margin: 0;
-}
-#ohjeet p, #ohjeet h2{
-    margin: 0;
-}
-.key_button{
-    display: inline-block;
-    width: fit-content;
-    min-width: 17px;
-    height: 17px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 4px;
-    box-shadow: 1px 1px 3px black;
-    background-color: rgb(206, 206, 206);
-    font-weight: bold;
-    margin: 0;
-}
-#clear{
-    position: fixed;
-    outline: none;
-    top: 20px;
-    left: 20px;
-    width: fit-content;
-    font-size: 26pt;
-    font-style: italic;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: rgb(180, 180, 180);
-    color: darkred;
-}
-input{
+    background: palegoldenrod;
     display: block;
-    margin-bottom: 5px;
-    width: 100px;
+}
+h2{
+    text-align: center;
+    width: fit-content;
+    margin: 10px auto;
+}
+.box{
+    width: fit-content;
+    margin: 0 auto;
 }
 </style>
 </head>
 <body>
-<canvas></canvas>
-<div id="ohjeet">
-    <h2><b>Click anywhere to add platform tiles</b> </h2>
-    <br>
-    <p>Move left and right with <span class="key_button">a</span> and <span class="key_button">d</span></p>
-    <p>Jump with <span class="key_button">space</span></p>
-    <p>Hold <span class="key_button">space</span> for higher jump</p>
-    <br>
-        gravity <input id="gravdin" value="9" type="number" onchange="setPlayerStats(this.value, 'gravity')">
-
-    <button onclick="resetStats()">reset</button>
-    <br>
-    <p>toggle Dev Options</p>
-    <p>show collision points: <span class="key_button">1.</span></p>
+<div class="box">
+    <h2>Platform</h2>
+    <canvas></canvas>
 </div>
-<button id="clear" onclick="clearTiles()">clear map</button>
 <script src="source.js"></script>
 </body>
 </html>

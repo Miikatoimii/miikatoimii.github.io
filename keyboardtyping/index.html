@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard typing test</title>
+<style>
+body{
+    margin: 0;
+}
+#textholder{
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16pt;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: rgb(212, 212, 212);
+    color: black;
+    word-wrap: break-word;
+    text-align: center;
+    height: 200px;
+    width: 800px;
+    margin: 0 auto;
+    overflow-y: scroll;
+}
+#textholder::-webkit-scrollbar{
+    background: gray;
+    width: 12px;
+}
+#textholder::-webkit-scrollbar-thumb{
+    width: 8px;
+    background: darkgray;
+    border: 2px solid rgb(85, 85, 85);
+}
+#keyboard{
+    display: flex;
+    flex-direction: column;
+    
+    width: fit-content;
+    margin: 0 auto;
+}
+.row{
+    display: flex;
+
+}
+.key{
+    display: grid;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 4px;
+    place-items: center;
+    margin: 3px;
+    background-color: whitesmoke;
+}
+#result{
+    text-align: center;
+    margin-top: 20px;
+}
+#generated {
+    background-color: aquamarine;
+    width: 800px;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+#generated::before,
+#generated::after {
+    content: "\"";
+}
+</style>
+</head>
+<body>
+    <div>
+        <h3 style="text-align: center;">type as fast as you can:</h3>
+        <h4 id="generated">loading...</h4>
+    </div>
+    <div id="textholder">
+
+    </div>
+    <div id="keyboard">
+
+    </div>
+    <div id="result">
+
+    </div>
+<script src="./script.js"></script>
+</body>
+</html>

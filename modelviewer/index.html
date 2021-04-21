@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>view models</title>
+<style>
+body{
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #415b85
+}
+#content{
+    width: fit-content;
+    margin: 0 auto;
+}
+canvas{
+    background: linear-gradient(#6e9db8, #354d75);
+    box-shadow: 0 0 3px black;
+}
+h2{
+    text-align: center;
+    margin: 6px 0;
+}
+select{
+    display: block;
+    margin: 0 auto 10px;
+    font-size: 14pt;
+    outline: none;
+    width: 300px;
+}
+select option{
+    text-align: center;
+}
+</style>
+</head>
+<body>
+    <div id="content">
+        <h2>Blender models :D</h2>
+        <h2>select model:</h2>
+        <select aria-placeholder="Select models" id="modelselector" oninput="selectMesh(this.value)">
+            <option style="color:lightgray;">Select object</option>
+            <option value="castle.glb">castle</option>
+            <option value="rocks.glb">rocks</option>
+            <option value="stickfigure.glb">stickfigure</option>
+            <option value="trees_1.glb">tree type 1</option>
+            <option value="trees_2.glb">tree type 2</option>
+        </select>
+        <div id="app"></div>
+        <div id="animations"></div>
+        <span style="position: fixed;bottom: 0;left: 50%;transform: translateX(-50%);">
+            Powered by THREE.js
+        </span>
+    </div>
+<script src="./three.js"></script>
+<script src="./GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.101.1/examples/js/controls/OrbitControls.js"></script>
+<script src="./canvas.main.js"></script>
+</body>
+</html>
